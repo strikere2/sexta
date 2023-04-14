@@ -1,41 +1,46 @@
-import express from "express";
+import express, {Request, Response} from "express";
+import { Produto } from "./entidades/produto.model";
 
-//Criando um servidor web através do express
+
 const app = express();
 
 
-//Configurar a aplicação para receber dados no formato JSON
 app.use(express.json());
 
-//Configurando uma requisição com o método GET para
-//a raiz da aplicação
-app.get("/", function(request, response){
+let produtos : Produto[] = [];
+//listar todos os produtos
+app.get("/", function(request: Request, response : Response) : Response{
     console.log("Primeira requisição recebida!");
-    response.status(200).json({ message : "Resposta enviada em JSON"});
+   return response.status(200).json({ message : "Ok", dados : produtos});
 });
 
-
-//EXERCÍCIO - Criar uma nova rota/funcionalidade para receber uma
-//informação pela URL da requisição
-app.get("/:categoria/:produto", (request, response) => {
+//buscar produtos por...
+app.get("/:categoria/:produto", (request: Request, response : Response) : Response => {
     console.log(request.params.categoria, request.params.produto);
     const { categoria, produto } = request.params;
-    response.status(200).json({categoria, produto});
+    return response.status(200).json({categoria, produto});
 
 });
+//cadastrar produto 
 
-//EXERCÍCIO - Criar uma nova rota/funcionalidade com método POST para receber uma
-//informação pelo corpo do requidito
-//POSTMAN, INSOMNIA e RESTCLIENT
-app.post("/", (request, response) => {
-    response.status(201).json
+app.post("/", (request: Request, response : Response) : Response => {
+   let produto : Produto = new Produto();
+
+   produto.nome = request.body.nome;
+   produto.preco = request.body.preco;
+
+   produtos.push(produto);
+
+
+    return response.status(201).json
     (
-        {message : "Categoria cadastrada!", categoria : request.body}
+        {message : "Produto cadastrado!", dados : produto}
     );
 });
 
+//implementar as funcionalidades no vetor de busca, a alteraçao e remoçao 
+//implementar o banco de aplicação (prisma.io)
 
-//O comando listen roda a aplicação
 app.listen(3000, function(){
     console.clear();
     console.log("Aplicação rodando na porta 3000");

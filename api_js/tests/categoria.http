@@ -9,8 +9,8 @@ POST http://localhost:3000
 Content-Type: application/json
 
 {
-    "id" : 1,
-    "nome" : "Alimento",
-    "descricao" : "Descrição da categoria"
+   
+    "nome" : "Amendoim",
+    "preco" : 10
 
 }
