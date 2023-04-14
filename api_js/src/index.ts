@@ -1,4 +1,4 @@
-const express = require('express');
+import express from "express";
 
 //Criando um servidor web através do express
 const app = express();
